@@ -10,6 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.1",
+    "@mui/material": "^5.15.1",
     "@typescript-eslint/parser": "^6.7.3",
     "dexie": "^3.2.4",
     "dexie-react-hooks": "^1.1.7",
