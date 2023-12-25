@@ -16,11 +16,13 @@
     "@mui/material": "^5.15.1",
     "@tanstack/react-router": "^1.0.0",
     "@typescript-eslint/parser": "^6.7.3",
+    "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "dexie": "^3.2.4",
     "dexie-react-hooks": "^1.1.7",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^2.2.0"
   },
   "devDependencies": {
     "@tanstack/router-devtools": "^1.0.0",

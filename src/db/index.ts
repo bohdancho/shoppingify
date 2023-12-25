@@ -20,7 +20,9 @@ export class ShoppingifyDB extends Dexie {
   async getActiveListPurchasesByCategories() {
     return this.transaction('r', this.lists, this.items, this.categories, this.purchases, async () => {
       const activeList = await this.lists.get({ state: 'active' })
-      if (!activeList) throw Error('no active list')
+      if (!activeList) {
+        throw Error('no active list')
+      }
 
       const purchases = await this.purchases.where({ listId: activeList.id }).toArray()
       const fullPurchases = await Promise.all(purchases.map((purchase) => this.getFullPurchase(purchase)))

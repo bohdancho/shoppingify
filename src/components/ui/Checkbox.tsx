@@ -1,11 +1,12 @@
 import { CheckRounded } from '@mui/icons-material'
-import clsx from 'clsx'
+import { type InputHTMLAttributes } from 'react'
+import { cn } from '~/utils'
 
-export function Checkbox({ className, checked }: { className?: string; checked: boolean }) {
+export function Checkbox({ className, ...props }: InputHTMLAttributes<HTMLInputElement>) {
   return (
-    <span className={clsx('relative block', className)}>
+    <span className={cn('relative block', className)}>
       <input
-        checked={checked}
+        {...props}
         type='checkbox'
         className='peer block h-6 w-6 cursor-pointer appearance-none rounded border-2 border-amber-500 bg-transparent checked:border-amber-500'
       />

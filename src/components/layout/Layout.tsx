@@ -9,8 +9,8 @@ export function Layout({ children }: { children: ReactNode }) {
   const [isShoppingListVisible, setIsShoppingListVisible] = useState(true)
 
   return (
-    <div>
-      <aside className='fixed flex  h-full w-16 flex-col items-center justify-between py-4'>
+    <div className='flex'>
+      <aside className='sticky top-0 flex h-dvh flex-col items-center justify-between py-4'>
         <img src={logo} alt='shoppingify logo' />
         <Navbar onNavigate={() => setIsShoppingListVisible(false)} />
         <button
@@ -21,7 +21,7 @@ export function Layout({ children }: { children: ReactNode }) {
           <ShoppingCartRounded className='z-10' />
         </button>
       </aside>
-      <div className='pl-16'>{children}</div>
+      <div className='flex-1'>{children}</div>
       <ShoppingList isVisible={isShoppingListVisible} />
     </div>
   )
