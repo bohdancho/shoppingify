@@ -14,7 +14,7 @@ export type Item = {
 export type ListState = 'active' | 'cancelled' | 'completed'
 export type List = {
   id?: number
-  title?: string
+  name?: string
   state: ListState
   creationDate: number
 }

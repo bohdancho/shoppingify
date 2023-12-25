@@ -129,22 +129,22 @@ export async function populate() {
   const listsIds = await db.lists.bulkAdd(
     [
       {
-        title: 'Grocery List',
+        name: 'Grocery List',
         state: 'cancelled',
         creationDate: Date.now() - MONTH_MS,
       },
       {
-        title: 'Board game week 2',
+        name: 'Board game week 2',
         state: 'completed',
         creationDate: Date.now() - MONTH_MS * 1.5,
       },
       {
-        title: "Eero's farewall party",
+        name: "Eero's farewall party",
         state: 'completed',
         creationDate: Date.now() - MONTH_MS * 0.2,
       },
       {
-        title: 'Grocery List',
+        // name: 'Grocery List',
         state: 'active',
         creationDate: Date.now() - MONTH_MS * 0.1,
       },
@@ -171,11 +171,11 @@ export async function populate() {
     { listId: listsIds[2], itemId: itemsIds[28], amount: 4, isCompleted: true },
     { listId: listsIds[2], itemId: itemsIds[14], amount: 2, isCompleted: true },
 
-    { listId: listsIds[3], itemId: itemsIds[12], amount: 2, isCompleted: false },
+    { listId: listsIds[3], itemId: itemsIds[12], amount: 2, isCompleted: true },
     { listId: listsIds[3], itemId: itemsIds[30], amount: 1, isCompleted: false },
     { listId: listsIds[3], itemId: itemsIds[20], amount: 3, isCompleted: false },
     { listId: listsIds[3], itemId: itemsIds[19], amount: 1, isCompleted: true },
     { listId: listsIds[3], itemId: itemsIds[15], amount: 2, isCompleted: false },
-    { listId: listsIds[3], itemId: itemsIds[27], amount: 2, isCompleted: false },
+    { listId: listsIds[3], itemId: itemsIds[27], amount: 2, isCompleted: true },
   ])
 }

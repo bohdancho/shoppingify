@@ -1,10 +1,10 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import bottleImg from '~/assets/bottle.svg'
-import { Button } from '~/components/ui/Button'
+import { Button } from '~/components/ui'
 import shoppingImg from '~/assets/shopping.svg'
 import { db } from '~/db'
 import { cn } from '~/utils'
-import { CancelListModal, PurchasesByCategories } from './components'
+import { CancelListModal, ListNameForm, PurchasesByCategories } from './components'
 import { useState } from 'react'
 
 export function ShoppingList({ isVisible, onClose }: { isVisible: boolean; onClose: () => void }) {
@@ -40,31 +40,37 @@ export function ShoppingList({ isVisible, onClose }: { isVisible: boolean; onClo
               </button>
             </div>
           </div>
+          {(data.activeList.name || hasItems) && (
+            <h1 className='mb-8 text-2xl font-bold text-neutral-700'>{data.activeList.name ?? 'Shopping list'}</h1>
+          )}
           {hasItems ? (
             <>
-              <h1 className='mb-8 text-2xl font-bold text-neutral-700'>Shopping list</h1>
               <PurchasesByCategories purchasesByCategories={data.purchasesByCategories} />
             </>
           ) : (
-            <>
-              <div className='mt-[50%] self-center text-xl font-bold text-neutral-700'>No items</div>
-            </>
+            <div className='absolute top-1/2 mt-auto self-center text-xl font-bold text-neutral-700'>No items</div>
           )}
         </div>
-        <div className='sticky bottom-0 flex w-full justify-center gap-2 bg-white p-4'>
+        <div className='sticky bottom-0 flex w-full justify-center bg-white p-4'>
           {!hasItems && <img src={shoppingImg} className='absolute top-2 max-w-[200px] -translate-y-full' />}
-          <Button variant='transparent' onClick={() => setIsCancelModalVisible(true)}>
-            cancel
-          </Button>
-          <Button
-            variant='secondary'
-            onClick={async () => {
-              await db.changeListState(data.activeList.id!, 'completed')
-              onClose()
-            }}
-          >
-            Complete
-          </Button>
+          {!data.activeList.name ? (
+            <ListNameForm listId={data.activeList.id!} />
+          ) : (
+            <>
+              <Button variant='transparent' className='mr-2' onClick={() => setIsCancelModalVisible(true)}>
+                cancel
+              </Button>
+              <Button
+                variant='secondary'
+                onClick={async () => {
+                  await db.changeListState(data.activeList.id!, 'completed')
+                  onClose()
+                }}
+              >
+                Complete
+              </Button>
+            </>
+          )}
         </div>
       </aside>
     </>

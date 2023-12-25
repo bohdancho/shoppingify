@@ -1,5 +1,5 @@
 import { CloseRounded } from '@mui/icons-material'
-import { Button } from '~/components/ui/Button'
+import { Button } from '~/components/ui'
 import { cn } from '~/utils'
 
 export function CancelListModal({
