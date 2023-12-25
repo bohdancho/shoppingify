@@ -8,7 +8,7 @@ export class ShoppingifyDB extends Dexie {
   lists!: Table<List, number>
   itemsInLists!: Table<ItemInList, number>
   constructor() {
-    super('TodoDB')
+    super('ShoppingifyDB')
     this.version(1).stores({
       categories: '++id',
       items: '++id, categoryId',
