@@ -3,10 +3,10 @@ import { Navbar } from './components/Navbar'
 import { ShoppingCartRounded } from '@mui/icons-material'
 import logo from '~/assets/logo.svg'
 import { useState } from 'react'
-import clsx from 'clsx'
+import { ShoppingList } from '~/features/ShoppingList'
 
 export function Layout({ children }: { children: ReactNode }) {
-  const [isShoppingListVisible, setIsShoppingListVisible] = useState(false)
+  const [isShoppingListVisible, setIsShoppingListVisible] = useState(true)
 
   return (
     <div>
@@ -22,14 +22,7 @@ export function Layout({ children }: { children: ReactNode }) {
         </button>
       </aside>
       <div className='pl-16'>{children}</div>
-      <aside
-        className={clsx(
-          isShoppingListVisible ? 'left-16' : 'left-full',
-          'fixed top-0 h-full w-[calc(100%-4rem)] bg-orange-100 px-4 pt-6 transition-all duration-200 ease-in-out',
-        )}
-      >
-        aside
-      </aside>
+      <ShoppingList isVisible={isShoppingListVisible} />
     </div>
   )
 }

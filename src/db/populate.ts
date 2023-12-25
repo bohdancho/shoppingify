@@ -152,28 +152,30 @@ export async function populate() {
     { allKeys: true },
   )
 
-  await db.itemsInLists.bulkAdd([
-    { listId: listsIds[0], itemId: itemsIds[2], amount: 2, isBought: true },
-    { listId: listsIds[0], itemId: itemsIds[10], amount: 3, isBought: true },
-    { listId: listsIds[0], itemId: itemsIds[22], amount: 1, isBought: true },
+  await db.purchases.bulkAdd([
+    { listId: listsIds[0], itemId: itemsIds[2], amount: 2, isCompleted: true },
+    { listId: listsIds[0], itemId: itemsIds[10], amount: 3, isCompleted: true },
+    { listId: listsIds[0], itemId: itemsIds[22], amount: 1, isCompleted: true },
 
-    { listId: listsIds[0], itemId: itemsIds[2], amount: 2, isBought: true },
-    { listId: listsIds[0], itemId: itemsIds[5], amount: 1, isBought: false },
-    { listId: listsIds[0], itemId: itemsIds[15], amount: 2, isBought: true },
-    { listId: listsIds[0], itemId: itemsIds[8], amount: 1, isBought: true },
-    { listId: listsIds[0], itemId: itemsIds[14], amount: 2, isBought: false },
+    { listId: listsIds[0], itemId: itemsIds[2], amount: 2, isCompleted: true },
+    { listId: listsIds[0], itemId: itemsIds[5], amount: 1, isCompleted: false },
+    { listId: listsIds[0], itemId: itemsIds[15], amount: 2, isCompleted: true },
+    { listId: listsIds[0], itemId: itemsIds[8], amount: 1, isCompleted: true },
+    { listId: listsIds[0], itemId: itemsIds[14], amount: 2, isCompleted: false },
 
-    { listId: listsIds[1], itemId: itemsIds[18], amount: 4, isBought: true },
-    { listId: listsIds[1], itemId: itemsIds[5], amount: 1, isBought: true },
-    { listId: listsIds[1], itemId: itemsIds[1], amount: 3, isBought: true },
-    { listId: listsIds[1], itemId: itemsIds[20], amount: 2, isBought: true },
+    { listId: listsIds[1], itemId: itemsIds[18], amount: 4, isCompleted: true },
+    { listId: listsIds[1], itemId: itemsIds[5], amount: 1, isCompleted: true },
+    { listId: listsIds[1], itemId: itemsIds[1], amount: 3, isCompleted: true },
+    { listId: listsIds[1], itemId: itemsIds[20], amount: 2, isCompleted: true },
 
-    { listId: listsIds[2], itemId: itemsIds[28], amount: 4, isBought: true },
-    { listId: listsIds[2], itemId: itemsIds[14], amount: 2, isBought: true },
+    { listId: listsIds[2], itemId: itemsIds[28], amount: 4, isCompleted: true },
+    { listId: listsIds[2], itemId: itemsIds[14], amount: 2, isCompleted: true },
 
-    { listId: listsIds[3], itemId: itemsIds[12], amount: 2, isBought: false },
-    { listId: listsIds[3], itemId: itemsIds[22], amount: 1, isBought: false },
-    { listId: listsIds[3], itemId: itemsIds[3], amount: 3, isBought: false },
-    { listId: listsIds[3], itemId: itemsIds[25], amount: 2, isBought: true },
+    { listId: listsIds[3], itemId: itemsIds[12], amount: 2, isCompleted: false },
+    { listId: listsIds[3], itemId: itemsIds[30], amount: 1, isCompleted: false },
+    { listId: listsIds[3], itemId: itemsIds[20], amount: 3, isCompleted: false },
+    { listId: listsIds[3], itemId: itemsIds[19], amount: 1, isCompleted: true },
+    { listId: listsIds[3], itemId: itemsIds[15], amount: 2, isCompleted: false },
+    { listId: listsIds[3], itemId: itemsIds[27], amount: 2, isCompleted: false },
   ])
 }

@@ -18,10 +18,11 @@ export type List = {
   creationDate: number
 }
 
-export type ItemInList = {
+export type Purchase = {
   id?: number
   itemId: number
   listId: number
   amount: number
-  isBought: boolean
+  isCompleted: boolean
 }
+export type FullPurchase = Purchase & { category: Category; item: Item; list: List }
