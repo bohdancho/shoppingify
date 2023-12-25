@@ -11,10 +11,11 @@ export type Item = {
   imageUrl?: string
 }
 
+export type ListState = 'active' | 'cancelled' | 'completed'
 export type List = {
   id?: number
-  title: string
-  state: 'active' | 'cancelled' | 'completed'
+  title?: string
+  state: ListState
   creationDate: number
 }
 
@@ -25,4 +26,4 @@ export type Purchase = {
   amount: number
   isCompleted: boolean
 }
-export type FullPurchase = Purchase & { category: Category; item: Item; list: List }
+export type PopulatedPurchase = Purchase & { category: Category; item: Item; list: List }

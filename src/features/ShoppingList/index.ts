@@ -1,1 +1,1 @@
-export * from './ShoppingList'
+export { ShoppingList } from './ShoppingList'

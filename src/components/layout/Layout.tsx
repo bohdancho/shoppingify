@@ -22,7 +22,7 @@ export function Layout({ children }: { children: ReactNode }) {
         </button>
       </aside>
       <div className='flex-1'>{children}</div>
-      <ShoppingList isVisible={isShoppingListVisible} />
+      <ShoppingList isVisible={isShoppingListVisible} onClose={() => setIsShoppingListVisible(false)} />
     </div>
   )
 }

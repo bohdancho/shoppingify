@@ -1,5 +1,5 @@
 import Dexie, { type Table } from 'dexie'
-import type { Category, FullPurchase, Item, List, Purchase } from './types'
+import type { Category, PopulatedPurchase, Item, List, Purchase, ListState } from './types'
 import { populate } from './populate'
 
 export class ShoppingifyDB extends Dexie {
@@ -17,7 +17,7 @@ export class ShoppingifyDB extends Dexie {
     })
   }
 
-  async getActiveListPurchasesByCategories() {
+  async getShoppingList() {
     return this.transaction('r', this.lists, this.items, this.categories, this.purchases, async () => {
       const activeList = await this.lists.get({ state: 'active' })
       if (!activeList) {
@@ -25,21 +25,21 @@ export class ShoppingifyDB extends Dexie {
       }
 
       const purchases = await this.purchases.where({ listId: activeList.id }).toArray()
-      const fullPurchases = await Promise.all(purchases.map((purchase) => this.getFullPurchase(purchase)))
+      const populatedPurchases = await Promise.all(purchases.map((purchase) => this.getPopulatedPurchase(purchase)))
 
-      const fullPurchasesByCategories: Record<string, FullPurchase[]> = {}
-      fullPurchases.forEach((fullPurchase) => {
+      const purchasesByCategories: Record<string, PopulatedPurchase[]> = {}
+      populatedPurchases.forEach((fullPurchase) => {
         const categoryName = fullPurchase.category.name
-        if (!fullPurchasesByCategories[categoryName]) {
-          fullPurchasesByCategories[categoryName] = []
+        if (!purchasesByCategories[categoryName]) {
+          purchasesByCategories[categoryName] = []
         }
-        fullPurchasesByCategories[categoryName].push(fullPurchase)
+        purchasesByCategories[categoryName].push(fullPurchase)
       })
-      return fullPurchasesByCategories
+      return { purchasesByCategories, activeList }
     })
   }
 
-  async getFullPurchase(purchase: Purchase): Promise<FullPurchase> {
+  async getPopulatedPurchase(purchase: Purchase): Promise<PopulatedPurchase> {
     return db.transaction('r', this.lists, this.items, this.purchases, this.categories, async () => {
       const item = await this.items.get(purchase.itemId)
       if (!item) throw Error('no item found')
@@ -48,6 +48,13 @@ export class ShoppingifyDB extends Dexie {
       const list = await this.lists.get(purchase.listId)
       if (!list) throw Error('no list found')
       return { ...purchase, category, item, list }
+    })
+  }
+
+  async changeListState(listId: number, newState: ListState) {
+    return db.transaction('rw', this.lists, async () => {
+      await db.lists.update(listId, { state: newState })
+      await db.lists.add({ creationDate: Date.now(), state: 'active' })
     })
   }
 }
