@@ -28,10 +28,9 @@ export function ListNameForm({ listId }: { listId: number }) {
       noValidate
     >
       <Input
-        {...register('name', { required: true })}
-        required
         placeholder='Enter a name'
-        className={cn(errors.name?.message ? 'border-red-500' : 'border-amber-500', '-mr-2 border-r-transparent pr-2')}
+        className={cn({ 'border-red-500': errors.name?.message }, '-mr-2 border-r-transparent pr-2')}
+        {...register('name', { required: true })}
       />
       <Button type='submit'>Save</Button>
     </form>
