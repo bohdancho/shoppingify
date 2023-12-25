@@ -1,0 +1,1 @@
+export { statisticsRoute } from './routes'
