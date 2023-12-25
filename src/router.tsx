@@ -1,6 +1,6 @@
 import { Outlet, RootRoute, Router } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import { Layout } from './components/layout/Layout'
+import { Layout } from './components/layout'
 import { itemsRoute } from './features/items'
 import { historyRoute } from './features/history'
 import { statisticsRoute } from './features/statistics'
