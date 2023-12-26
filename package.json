@@ -2,6 +2,7 @@
   "name": "vite-react-template",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://bohdancho.github.io/shoppingify/",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,6 +13,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
+    "@evolu/react": "^4.0.0",
     "@hookform/resolvers": "^3.3.2",
     "@mui/icons-material": "^5.15.1",
     "@mui/material": "^5.15.1",
@@ -44,6 +46,7 @@
     "prettier-plugin-tailwindcss": "^0.5.4",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "vite": "^4.4.5",
+    "vite-plugin-top-level-await": "^1.4.1"
   }
 }

@@ -1,8 +1,13 @@
 import { RouterProvider } from '@tanstack/react-router'
 import './App.css'
 import { router } from './router'
+import { Evolu } from './db/evolu'
 
-export const acme = 1
 export function App() {
-  return <RouterProvider router={router} />
+  return (
+    <>
+      <Evolu />
+      <RouterProvider router={router} />
+    </>
+  )
 }
