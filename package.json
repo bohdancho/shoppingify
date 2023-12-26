@@ -25,6 +25,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.2",
+    "rxdb": "^15.0.0",
+    "rxdb-hooks": "^5.0.2",
+    "rxjs": "^7.8.1",
     "tailwind-merge": "^2.2.0",
     "zod": "^3.22.4"
   },
