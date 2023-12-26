@@ -5,16 +5,5 @@ import { db } from './rxdb/db'
 
 export function App() {
   void db.categories.find().exec().then(console.log)
-  return (
-    <>
-      <button
-        onClick={async () => {
-          await db.categories.insert({ name: String(Date.now()), items: [] })
-        }}
-      >
-        btn
-      </button>
-      <RouterProvider router={router} />
-    </>
-  )
+  return <RouterProvider router={router} />
 }

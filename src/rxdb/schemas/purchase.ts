@@ -11,7 +11,7 @@ export const purchaseSchemaLiteral = {
   title: 'purchase schema',
   version: 0,
   type: 'object',
-  primaryKey: { key: 'id', fields: ['item', 'list'], separator: '|' },
+  primaryKey: 'id',
   properties: {
     id: { type: 'string', maxLength: 100 },
     item: { type: 'string', ref: 'item' },

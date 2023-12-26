@@ -1,4 +1,4 @@
-import { addRxPlugin, createRxDatabase, type RxDatabase } from 'rxdb'
+import { addRxPlugin, createRxDatabase, isRxDatabaseFirstTimeInstantiated, type RxDatabase } from 'rxdb'
 import {
   categorySchema,
   type CategoryCollection,
@@ -9,6 +9,7 @@ import {
   listSchema,
 } from './schemas'
 import { getRxStorageDexie } from 'rxdb/plugins/storage-dexie'
+import { seedDb } from './seed'
 
 export type DatabaseCollections = {
   categories: CategoryCollection
@@ -22,11 +23,10 @@ if (import.meta.env.DEV) {
   await import('rxdb/plugins/dev-mode').then((module) => addRxPlugin(module.RxDBDevModePlugin))
 }
 
-console.log('create')
 export const db: Database = await createRxDatabase<DatabaseCollections>({
   name: 'mydb',
   storage: getRxStorageDexie(),
-  ignoreDuplicate: true,
+  ignoreDuplicate: import.meta.env.DEV,
 })
 
 await db.addCollections({
@@ -43,3 +43,7 @@ await db.addCollections({
     schema: categorySchema,
   },
 })
+
+if (await isRxDatabaseFirstTimeInstantiated(db as unknown as RxDatabase)) {
+  seedDb(db)
+}

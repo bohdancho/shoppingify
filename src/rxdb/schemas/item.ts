@@ -11,14 +11,15 @@ export const itemSchemaLiteral = {
   title: 'item schema',
   version: 0,
   type: 'object',
-  primaryKey: 'name',
+  primaryKey: 'id',
   properties: {
+    id: { type: 'string', maxLength: 50 },
     name: { type: 'string', maxLength: 50 },
     category: { type: 'string', ref: 'category' },
     note: { type: 'string' },
     imageUrl: { type: 'string' },
   },
-  required: ['category', 'name'],
+  required: ['id', 'category', 'name'],
 } as const satisfies DeepReadonly<RxJsonSchema<any>> // eslint-disable-line @typescript-eslint/no-explicit-any
 const schemaTyped = toTypedRxJsonSchema(itemSchemaLiteral)
 
