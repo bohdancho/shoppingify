@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { Input } from '~/components/ui'
 import { Button } from '~/components/ui'
 import { db } from '~/db'
+import { type List } from '~/db/types'
 import { cn, trimString } from '~/utils'
 
 const schema = z
@@ -12,17 +13,18 @@ const schema = z
   })
   .required()
 
-export function ListNameForm({ listId }: { listId: number }) {
+export function ListNameForm({ list, onSubmit }: { list: List; onSubmit: () => void }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<z.infer<typeof schema>>({ resolver: zodResolver(schema) })
+  } = useForm<z.infer<typeof schema>>({ resolver: zodResolver(schema), defaultValues: { name: list.name } })
 
   return (
     <form
-      onSubmit={handleSubmit(({ name }) => {
-        void db.lists.update(listId, { name })
+      onSubmit={handleSubmit(async ({ name }) => {
+        await db.lists.update(list, { name })
+        onSubmit()
       })}
       className='flex'
       noValidate

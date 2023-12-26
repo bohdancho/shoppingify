@@ -6,10 +6,12 @@ import { db } from '~/db'
 import { cn } from '~/utils'
 import { CancelListModal, ListNameForm, PurchasesByCategories } from './components'
 import { useState } from 'react'
+import { CreateRounded } from '@mui/icons-material'
 
 export function ShoppingList({ isVisible, onClose }: { isVisible: boolean; onClose: () => void }) {
   const data = useLiveQuery(async () => await db.getShoppingList())
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false)
+  const [isEditMode, setIsEditMode] = useState(false)
   if (data === undefined) return 'Loading...'
 
   const hasItems = Object.keys(data.purchasesByCategories).length !== 0
@@ -41,11 +43,18 @@ export function ShoppingList({ isVisible, onClose }: { isVisible: boolean; onClo
             </div>
           </div>
           {(data.activeList.name || hasItems) && (
-            <h1 className='mb-8 text-2xl font-bold text-neutral-700'>{data.activeList.name ?? 'Shopping list'}</h1>
+            <div className='mb-8 flex items-start justify-between'>
+              <h1 className='text-2xl font-bold text-neutral-700'>{data.activeList.name ?? 'Shopping list'}</h1>
+              {!isEditMode && (
+                <button className='h-8' onClick={() => setIsEditMode(true)}>
+                  <CreateRounded />
+                </button>
+              )}
+            </div>
           )}
           {hasItems ? (
             <>
-              <PurchasesByCategories purchasesByCategories={data.purchasesByCategories} />
+              <PurchasesByCategories purchasesByCategories={data.purchasesByCategories} isEditMode={isEditMode} />
             </>
           ) : (
             <div className='absolute top-1/2 mt-auto self-center text-xl font-bold text-neutral-700'>No items</div>
@@ -53,8 +62,8 @@ export function ShoppingList({ isVisible, onClose }: { isVisible: boolean; onClo
         </div>
         <div className='sticky bottom-0 flex w-full justify-center bg-white p-4'>
           {!hasItems && <img src={shoppingImg} className='absolute top-2 max-w-[200px] -translate-y-full' />}
-          {!data.activeList.name ? (
-            <ListNameForm listId={data.activeList.id!} />
+          {!data.activeList.name || isEditMode ? (
+            <ListNameForm list={data.activeList} onSubmit={() => setIsEditMode(false)} />
           ) : (
             <>
               <Button variant='transparent' className='mr-2' onClick={() => setIsCancelModalVisible(true)}>
