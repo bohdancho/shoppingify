@@ -8,6 +8,9 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- hack for COOP/COEP Headers on Github Pages 
+         https://docs.wasmer.io/javascript-sdk/how-to/coop-coep-headers#step-4-deploy-to-github-pages -->
+    <script type="module" src="/coi-serviceworker.js"></script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
