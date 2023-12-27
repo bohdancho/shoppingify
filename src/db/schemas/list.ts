@@ -24,7 +24,7 @@ export const listSchemaLiteral = {
     },
     createdAt: { type: 'number' },
   },
-  required: ['id', 'state', 'createdAt'],
+  required: ['id', 'state'],
 } as const satisfies DeepReadonly<RxJsonSchema<any>> // eslint-disable-line @typescript-eslint/no-explicit-any
 const schemaTyped = toTypedRxJsonSchema(listSchemaLiteral)
 

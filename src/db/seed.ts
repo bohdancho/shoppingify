@@ -158,10 +158,11 @@ const lists = [
   },
   {
     id: nanoid(),
-    // name: 'Grocery List',
-    state: 'active',
+    name: 'Grocery List',
+    state: 'cancelled',
     createdAt: Date.now() - MONTH_MS * 0.1,
   },
+  { id: nanoid(), state: 'active' },
 ] satisfies ListDocType[]
 
 const purchases = [

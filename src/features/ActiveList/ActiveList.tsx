@@ -5,8 +5,8 @@ import { cn, isMdScreen } from '~/utils'
 import { CancelListModal, ListNameForm, PurchasesByCategories } from './components'
 import { useState } from 'react'
 import { CreateRounded } from '@mui/icons-material'
-import { combineLatest, map, mergeMap, startWith, switchMap } from 'rxjs'
-import { db, type PurchaseDocument } from '~/db'
+import { combineLatest, filter, map, mergeMap, startWith, switchMap } from 'rxjs'
+import { db, type ListDocType, type PurchaseDocument } from '~/db'
 import groupBy from 'lodash/groupBy'
 import { useObservableGetState } from 'observable-hooks'
 import { nanoid } from 'nanoid'
@@ -29,15 +29,20 @@ export function ActiveList() {
     setIsEditMode(true)
   }
 
+  async function deactivateAndCreateNew(newState: Exclude<ListDocType['state'], 'active'>) {
+    await activeList.patch({ state: newState })
+    await db.lists.insert({ id: nanoid(), state: 'active' })
+    await navigate({ search: { isActiveListOpen: false } })
+  }
+
   return (
     <>
       <CancelListModal
         isVisible={isCancelModalVisible}
         onAbort={() => setIsCancelModalVisible(false)}
         onConfirm={async () => {
-          await activeList.patch({ state: 'cancelled' })
+          await deactivateAndCreateNew('cancelled')
           setIsCancelModalVisible(false)
-          await navigate({ search: { isActiveListOpen: false } })
         }}
       />
       <aside
@@ -76,7 +81,7 @@ export function ActiveList() {
             <ListNameForm
               list={activeList}
               onSubmit={async (name) => {
-                await activeList.patch({ name })
+                await activeList.patch({ name, createdAt: activeList.createdAt ? undefined : Date.now() })
                 setIsEditMode(false)
               }}
             />
@@ -85,13 +90,7 @@ export function ActiveList() {
               <Button variant='transparent' className='mr-2' onClick={() => setIsCancelModalVisible(true)}>
                 cancel
               </Button>
-              <Button
-                variant='secondary'
-                onClick={async () => {
-                  await activeList.patch({ state: 'completed' })
-                  await navigate({ search: { isActiveListOpen: false } })
-                }}
-              >
+              <Button variant='secondary' onClick={() => deactivateAndCreateNew('completed')}>
                 Complete
               </Button>
             </>
@@ -103,13 +102,7 @@ export function ActiveList() {
 }
 
 function useActiveList() {
-  const activeList$ = db.lists
-    .findOne({ selector: { state: 'active' } })
-    .$.pipe(
-      switchMap(async (activeList) =>
-        activeList ? activeList : await db.lists.insert({ id: nanoid(), state: 'active', createdAt: Date.now() }),
-      ),
-    )
+  const activeList$ = db.lists.findOne({ selector: { state: 'active' } }).$.pipe(filter(Boolean))
   const purchasesByCategories$ = activeList$.pipe(
     mergeMap((activeList) => db.purchases.find({ selector: { list: activeList.id } }).$),
     mergeMap((purchases) => combineLatest([...purchases.map(populatePurchase$)]).pipe(startWith([]))),
