@@ -20,6 +20,10 @@ export function ShoppingList({ isVisible, onClose }: { isVisible: boolean; onClo
   const [activeList, purchasesByCategories] = data
   const hasItems = Object.keys(purchasesByCategories).length !== 0
 
+  if (activeList.name === undefined && !isEditMode) {
+    setIsEditMode(true)
+  }
+
   return (
     <>
       <CancelListModal
@@ -65,7 +69,7 @@ export function ShoppingList({ isVisible, onClose }: { isVisible: boolean; onClo
         </div>
         <div className='sticky bottom-0 flex w-full justify-center bg-white p-4'>
           {!hasItems && <img src={shoppingImg} className='absolute top-2 max-w-[200px] -translate-y-full' />}
-          {!activeList.name || isEditMode ? (
+          {isEditMode ? (
             <ListNameForm
               list={activeList}
               onSubmit={async (name) => {
