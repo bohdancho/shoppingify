@@ -1,4 +1,10 @@
-import { addRxPlugin, createRxDatabase, isRxDatabaseFirstTimeInstantiated, type RxDatabase } from 'rxdb'
+import {
+  addRxPlugin,
+  createRxDatabase,
+  isRxDatabaseFirstTimeInstantiated,
+  removeRxDatabase,
+  type RxDatabase,
+} from 'rxdb'
 import {
   categorySchema,
   type CategoryCollection,
@@ -24,26 +30,32 @@ if (import.meta.env.DEV) {
   await import('rxdb/plugins/dev-mode').then((module) => addRxPlugin(module.RxDBDevModePlugin))
 }
 
+const dbName = 'shoppingify-db'
 export const db: Database = await createRxDatabase<DatabaseCollections>({
-  name: 'mydb',
+  name: dbName,
   storage: getRxStorageDexie(),
   ignoreDuplicate: import.meta.env.DEV,
 })
 
-await db.addCollections({
-  categories: {
-    schema: categorySchema,
-  },
-  items: {
-    schema: itemSchema,
-  },
-  lists: {
-    schema: listSchema,
-  },
-  purchases: {
-    schema: purchaseSchema,
-  },
-})
+try {
+  await db.addCollections({
+    categories: {
+      schema: categorySchema,
+    },
+    items: {
+      schema: itemSchema,
+    },
+    lists: {
+      schema: listSchema,
+    },
+    purchases: {
+      schema: purchaseSchema,
+    },
+  })
+} catch (err) {
+  await removeRxDatabase(dbName, getRxStorageDexie())
+  location.reload()
+}
 
 if (await isRxDatabaseFirstTimeInstantiated(db as unknown as RxDatabase)) {
   await seedDb(db)
