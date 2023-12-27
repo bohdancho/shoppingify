@@ -1,7 +1,7 @@
 import { AddRounded, DeleteOutlineRounded, RemoveRounded } from '@mui/icons-material'
 import { useState } from 'react'
 import { Checkbox } from '~/components/ui'
-import type { ItemDocument, PurchaseDocument } from '~/rxdb/schemas'
+import type { ItemDocument, PurchaseDocument } from '~/db'
 import { cn } from '~/utils'
 
 export function PurchasesByCategories({

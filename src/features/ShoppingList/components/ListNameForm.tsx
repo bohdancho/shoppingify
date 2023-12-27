@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Input } from '~/components/ui'
 import { Button } from '~/components/ui'
-import { type ListDocument } from '~/rxdb/schemas'
+import { type ListDocument } from '~/db'
 import { cn, trimString } from '~/utils'
 
 const schema = z
