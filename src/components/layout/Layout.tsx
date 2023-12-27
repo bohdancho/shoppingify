@@ -4,9 +4,9 @@ import { ShoppingCartRounded } from '@mui/icons-material'
 import logo from '~/assets/logo.svg'
 import { useState } from 'react'
 import { ShoppingList } from '~/features/ShoppingList'
-import { db } from '~/rxdb/db'
 import { switchMap, filter } from 'rxjs'
 import { useObservableGetState } from 'observable-hooks'
+import { db } from '~/db'
 
 export function Layout({ children }: { children: ReactNode }) {
   const [isShoppingListVisible, setIsShoppingListVisible] = useState(true)
