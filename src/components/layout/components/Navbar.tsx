@@ -18,11 +18,13 @@ export function Navbar() {
 
   return (
     <nav className='relative flex w-full flex-col items-center gap-8' ref={wrapperRef}>
-      {[
-        { to: '/items', Icon: FormatListBulletedRounded },
-        { to: '/history', Icon: ReplayRounded },
-        { to: '/statistics', Icon: InsertChartOutlinedRounded },
-      ].map(({ to, Icon }) => (
+      {(
+        [
+          { to: '/items', Icon: FormatListBulletedRounded },
+          { to: '/history', Icon: ReplayRounded },
+          { to: '/statistics', Icon: InsertChartOutlinedRounded },
+        ] as const
+      ).map(({ to, Icon }) => (
         <Link
           search={{ isActiveListOpen: false }}
           activeOptions={{ includeSearch: false }}
