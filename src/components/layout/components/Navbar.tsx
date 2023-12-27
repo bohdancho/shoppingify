@@ -26,6 +26,7 @@ export function Navbar() {
         ] as const
       ).map(({ to, Icon }) => (
         <Link
+          key={to}
           search={{ isActiveListOpen: false }}
           activeOptions={{ includeSearch: false }}
           to={to}
