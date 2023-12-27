@@ -44,7 +44,7 @@ export function Layout({ children }: { children: ReactNode }) {
 function useActivePurchasesCount() {
   const count$ = db.lists.findOne({ selector: { state: 'active' } }).$.pipe(
     filter(Boolean),
-    switchMap((activeList) => db.purchases.count({ selector: { list: activeList.id, isCompleted: false } }).$),
+    switchMap((activeList) => db.purchases.count({ selector: { listId: activeList.id, isCompleted: false } }).$),
   )
   return useObservableGetState(count$, undefined)
 }

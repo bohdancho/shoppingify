@@ -104,7 +104,7 @@ export function ActiveList() {
 function useActiveList() {
   const activeList$ = db.lists.findOne({ selector: { state: 'active' } }).$.pipe(filter(Boolean))
   const purchasesByCategories$ = activeList$.pipe(
-    mergeMap((activeList) => db.purchases.find({ selector: { list: activeList.id } }).$),
+    mergeMap((activeList) => db.purchases.find({ selector: { listId: activeList.id } }).$),
     mergeMap((purchases) => combineLatest([...purchases.map(populatePurchase$)]).pipe(startWith([]))),
     map((purchases) => groupBy(purchases, ({ category }) => category.name)),
   )
@@ -112,9 +112,9 @@ function useActiveList() {
 }
 
 function populatePurchase$(purchase: PurchaseDocument) {
-  return db.items.findOne({ selector: { id: purchase.item } }).$.pipe(
+  return db.items.findOne({ selector: { id: purchase.itemId } }).$.pipe(
     switchMap((item) =>
-      db.categories.findOne({ selector: { id: item?.category } }).$.pipe(
+      db.categories.findOne({ selector: { id: item!.categoryId } }).$.pipe(
         map((category) => ({
           purchase,
           item: item!,

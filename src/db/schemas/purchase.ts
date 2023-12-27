@@ -14,13 +14,13 @@ export const purchaseSchemaLiteral = {
   primaryKey: 'id',
   properties: {
     id: { type: 'string', maxLength: 100 },
-    item: { type: 'string', ref: 'items' },
-    list: { type: 'string', ref: 'lists', maxLength: 100 },
+    itemId: { type: 'string' },
+    listId: { type: 'string', maxLength: 100 },
     amount: { type: 'number', minimum: 0 },
     isCompleted: { type: 'boolean' },
   },
-  required: ['id', 'item', 'list', 'amount', 'isCompleted'],
-  indexes: [['list', 'isCompleted']],
+  required: ['id', 'itemId', 'listId', 'amount', 'isCompleted'],
+  indexes: [['listId', 'isCompleted']],
 } as const satisfies DeepReadonly<RxJsonSchema<any>> // eslint-disable-line @typescript-eslint/no-explicit-any
 const schemaTyped = toTypedRxJsonSchema(purchaseSchemaLiteral)
 
