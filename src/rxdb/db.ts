@@ -7,6 +7,7 @@ import {
   type PurchaseCollection,
   itemSchema,
   listSchema,
+  purchaseSchema,
 } from './schemas'
 import { getRxStorageDexie } from 'rxdb/plugins/storage-dexie'
 import { seedDb } from './seed'
@@ -40,10 +41,10 @@ await db.addCollections({
     schema: listSchema,
   },
   purchases: {
-    schema: categorySchema,
+    schema: purchaseSchema,
   },
 })
 
 if (await isRxDatabaseFirstTimeInstantiated(db as unknown as RxDatabase)) {
-  seedDb(db)
+  await seedDb(db)
 }

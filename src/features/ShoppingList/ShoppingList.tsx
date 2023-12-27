@@ -1,27 +1,33 @@
-import { useLiveQuery } from 'dexie-react-hooks'
 import bottleImg from '~/assets/bottle.svg'
 import { Button } from '~/components/ui'
 import shoppingImg from '~/assets/shopping.svg'
-import { db } from '~/db'
 import { cn } from '~/utils'
 import { CancelListModal, ListNameForm, PurchasesByCategories } from './components'
 import { useState } from 'react'
 import { CreateRounded } from '@mui/icons-material'
+import { db } from '~/rxdb/db'
+import { combineLatest, map, mergeMap, startWith, switchMap } from 'rxjs'
+import { type PurchaseDocument } from '~/rxdb/schemas'
+import groupBy from 'lodash/groupBy'
+import { useObservableGetState } from 'observable-hooks'
+import { nanoid } from 'nanoid'
 
 export function ShoppingList({ isVisible, onClose }: { isVisible: boolean; onClose: () => void }) {
-  const data = useLiveQuery(async () => await db.getShoppingList())
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false)
-  if (data === undefined) return 'Loading...'
 
-  const hasItems = Object.keys(data.purchasesByCategories).length !== 0
+  const data = useShoppingList()
+  if (data === undefined) return 'Loading...'
+  const [activeList, purchasesByCategories] = data
+  const hasItems = Object.keys(purchasesByCategories).length !== 0
+
   return (
     <>
       <CancelListModal
         isVisible={isCancelModalVisible}
         onAbort={() => setIsCancelModalVisible(false)}
         onConfirm={async () => {
-          await db.changeListState(data.activeList.id!, 'cancelled')
+          await activeList.patch({ state: 'cancelled' })
           setIsCancelModalVisible(false)
           onClose()
         }}
@@ -42,9 +48,9 @@ export function ShoppingList({ isVisible, onClose }: { isVisible: boolean; onClo
               </button>
             </div>
           </div>
-          {(data.activeList.name || hasItems) && (
+          {(activeList.name || hasItems) && (
             <div className='mb-8 flex items-start justify-between'>
-              <h1 className='text-2xl font-bold text-neutral-700'>{data.activeList.name ?? 'Shopping list'}</h1>
+              <h1 className='text-2xl font-bold text-neutral-700'>{activeList.name ?? 'Shopping list'}</h1>
               {!isEditMode && (
                 <button className='h-8' onClick={() => setIsEditMode(true)}>
                   <CreateRounded />
@@ -53,17 +59,21 @@ export function ShoppingList({ isVisible, onClose }: { isVisible: boolean; onClo
             </div>
           )}
           {hasItems ? (
-            <>
-              <PurchasesByCategories purchasesByCategories={data.purchasesByCategories} isEditMode={isEditMode} />
-            </>
+            <PurchasesByCategories purchasesByCategories={purchasesByCategories} isEditMode={isEditMode} />
           ) : (
             <div className='absolute top-1/2 mt-auto self-center text-xl font-bold text-neutral-700'>No items</div>
           )}
         </div>
         <div className='sticky bottom-0 flex w-full justify-center bg-white p-4'>
           {!hasItems && <img src={shoppingImg} className='absolute top-2 max-w-[200px] -translate-y-full' />}
-          {!data.activeList.name || isEditMode ? (
-            <ListNameForm list={data.activeList} onSubmit={() => setIsEditMode(false)} />
+          {!activeList.name || isEditMode ? (
+            <ListNameForm
+              list={activeList}
+              onSubmit={async (name) => {
+                await activeList.patch({ name })
+                setIsEditMode(false)
+              }}
+            />
           ) : (
             <>
               <Button variant='transparent' className='mr-2' onClick={() => setIsCancelModalVisible(true)}>
@@ -72,7 +82,7 @@ export function ShoppingList({ isVisible, onClose }: { isVisible: boolean; onClo
               <Button
                 variant='secondary'
                 onClick={async () => {
-                  await db.changeListState(data.activeList.id!, 'completed')
+                  await activeList.patch({ state: 'completed' })
                   onClose()
                 }}
               >
@@ -84,4 +94,34 @@ export function ShoppingList({ isVisible, onClose }: { isVisible: boolean; onClo
       </aside>
     </>
   )
+}
+
+function populatePurchase$(purchase: PurchaseDocument) {
+  return db.items.findOne({ selector: { id: purchase.item } }).$.pipe(
+    switchMap((item) =>
+      db.categories.findOne({ selector: { id: item?.category } }).$.pipe(
+        map((category) => ({
+          purchase,
+          item: item!,
+          category: category!,
+        })),
+      ),
+    ),
+  )
+}
+
+function useShoppingList() {
+  const activeList$ = db.lists
+    .findOne({ selector: { state: 'active' } })
+    .$.pipe(
+      switchMap(async (activeList) =>
+        activeList ? activeList : await db.lists.insert({ id: nanoid(), state: 'active', createdAt: Date.now() }),
+      ),
+    )
+  const purchasesByCategories$ = activeList$.pipe(
+    mergeMap((activeList) => db.purchases.find({ selector: { list: activeList.id } }).$),
+    mergeMap((purchases) => combineLatest([...purchases.map(populatePurchase$)]).pipe(startWith([]))),
+    map((purchases) => groupBy(purchases, ({ category }) => category.name)),
+  )
+  return useObservableGetState(combineLatest([activeList$, purchasesByCategories$]), undefined)
 }

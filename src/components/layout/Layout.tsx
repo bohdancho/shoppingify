@@ -4,18 +4,13 @@ import { ShoppingCartRounded } from '@mui/icons-material'
 import logo from '~/assets/logo.svg'
 import { useState } from 'react'
 import { ShoppingList } from '~/features/ShoppingList'
-import { useLiveQuery } from 'dexie-react-hooks'
-import { db } from '~/db'
+import { db } from '~/rxdb/db'
+import { switchMap, filter } from 'rxjs'
+import { useObservableGetState } from 'observable-hooks'
 
 export function Layout({ children }: { children: ReactNode }) {
   const [isShoppingListVisible, setIsShoppingListVisible] = useState(true)
-  const shoppingList = useLiveQuery(() => db.getShoppingList())
-  let purchasesCount = 0
-  if (shoppingList) {
-    purchasesCount = Object.values(shoppingList.purchasesByCategories)
-      .flat()
-      .filter(({ isCompleted }) => !isCompleted).length
-  }
+  const activePurchasesCount = useActivePurchasesCount()
 
   return (
     <div className='flex'>
@@ -26,9 +21,9 @@ export function Layout({ children }: { children: ReactNode }) {
           className='relative flex h-10 w-10 items-center justify-center rounded-full bg-amber-500 text-white'
           onClick={() => setIsShoppingListVisible((prev) => !prev)}
         >
-          {purchasesCount !== 0 && (
+          {activePurchasesCount !== 0 && (
             <div className='absolute -right-1 -top-1 w-5 rounded bg-rose-500 text-xs leading-5 text-white'>
-              {purchasesCount}
+              {activePurchasesCount}
             </div>
           )}
           <ShoppingCartRounded className='z-10' />
@@ -38,4 +33,12 @@ export function Layout({ children }: { children: ReactNode }) {
       <ShoppingList isVisible={isShoppingListVisible} onClose={() => setIsShoppingListVisible(false)} />
     </div>
   )
+}
+
+function useActivePurchasesCount() {
+  const count$ = db.lists.findOne({ selector: { state: 'active' } }).$.pipe(
+    filter(Boolean),
+    switchMap((activeList) => db.purchases.count({ selector: { list: activeList.id, isCompleted: false } }).$),
+  )
+  return useObservableGetState(count$, undefined)
 }

@@ -15,7 +15,7 @@ export function CancelListModal({
     <div
       className={cn(
         isVisible ? 'opacity-100' : 'pointer-events-none opacity-0',
-        'fixed z-50 flex h-full items-center justify-center p-4 backdrop-brightness-75 transition',
+        'fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center p-4 backdrop-brightness-75 transition',
       )}
       onClick={(event) => {
         if (event.target === event.currentTarget) {

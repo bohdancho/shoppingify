@@ -1,18 +1,17 @@
 import { AddRounded, DeleteOutlineRounded, RemoveRounded } from '@mui/icons-material'
 import { useState } from 'react'
 import { Checkbox } from '~/components/ui'
-import { db } from '~/db'
-import type { Purchase, PopulatedPurchase } from '~/db/types'
+import type { ItemDocument, PurchaseDocument } from '~/rxdb/schemas'
 import { cn } from '~/utils'
 
 export function PurchasesByCategories({
   purchasesByCategories,
   isEditMode,
 }: {
-  purchasesByCategories: Record<string, PopulatedPurchase[]>
+  purchasesByCategories: Record<string, { purchase: PurchaseDocument; item: ItemDocument }[]>
   isEditMode: boolean
 }) {
-  const [editingPurchaseId, setEditingPurchaseId] = useState<number | null>(null)
+  const [editingPurchaseId, setEditingPurchaseId] = useState<string | null>(null)
   if (!isEditMode && editingPurchaseId !== null) {
     setEditingPurchaseId(null)
   }
@@ -23,51 +22,49 @@ export function PurchasesByCategories({
         <li key={categoryName} className='mb-10 last:mb-0'>
           <h2 className='text-sm text-zinc-500'>{categoryName}</h2>
           <ul>
-            {purchases.map((purchase) => (
+            {purchases.map(({ purchase, item }) => (
               <li key={purchase.id} className='mt-2 flex items-center justify-between'>
                 {isEditMode ? (
-                  <span className='text-sm'>{purchase.item.name}</span>
+                  <span className='text-sm'>{item.name}</span>
                 ) : (
                   <label className='flex cursor-pointer items-center'>
                     <Checkbox
                       className='peer mr-3'
                       checked={purchase.isCompleted}
-                      onChange={(event) => db.purchases.update(purchase.id!, { isCompleted: event.target.checked })}
+                      onChange={(event) => purchase.patch({ isCompleted: event.target.checked })}
                     />
-                    <span className='text-sm peer-has-[:checked]:line-through'>{purchase.item.name}</span>
+                    <span className='text-sm peer-has-[:checked]:line-through'>{item.name}</span>
                   </label>
                 )}
                 {purchase.id === editingPurchaseId ? (
                   <div className='flex rounded-xl bg-white'>
                     <button className='mr-2 rounded-xl bg-amber-500 px-[10px] pr-2'>
-                      <DeleteOutlineRounded className='text-white' onClick={() => db.purchases.delete(purchase.id!)} />
+                      <DeleteOutlineRounded className='text-white' />
                     </button>
                     <button>
                       <RemoveRounded
                         className='text-amber-500'
                         onClick={() =>
-                          purchase.amount > 1
-                            ? db.purchases.update(purchase, { amount: purchase.amount - 1 })
-                            : db.purchases.delete(purchase.id!)
+                          purchase.amount > 1 ? purchase.patch({ amount: purchase.amount - 1 }) : purchase.remove()
                         }
                       />
                     </button>
                     <AmountBadge
                       className='mx-1 my-2 cursor-pointer self-center'
-                      purchase={purchase}
+                      amount={purchase.amount}
                       onClick={() => isEditMode && setEditingPurchaseId(null)}
                     />
                     <button className='pr-1'>
                       <AddRounded
                         className='text-amber-500'
-                        onClick={() => db.purchases.update(purchase, { amount: purchase.amount + 1 })}
+                        onClick={() => purchase.patch({ amount: purchase.amount + 1 })}
                       />
                     </button>
                   </div>
                 ) : (
                   <AmountBadge
                     className={cn({ 'cursor-pointer': isEditMode }, 'my-2')}
-                    purchase={purchase}
+                    amount={purchase.amount}
                     onClick={() => isEditMode && setEditingPurchaseId(purchase.id!)}
                   />
                 )}
@@ -80,7 +77,7 @@ export function PurchasesByCategories({
   )
 }
 
-function AmountBadge({ purchase, onClick, className }: { purchase: Purchase; onClick: () => void; className: string }) {
+function AmountBadge({ amount, onClick, className }: { amount: number; onClick: () => void; className: string }) {
   return (
     <span
       onClick={onClick}
@@ -89,7 +86,7 @@ function AmountBadge({ purchase, onClick, className }: { purchase: Purchase; onC
         className,
       )}
     >
-      {purchase.amount} pcs
+      {amount} pcs
     </span>
   )
 }

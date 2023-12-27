@@ -3,8 +3,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Input } from '~/components/ui'
 import { Button } from '~/components/ui'
-import { db } from '~/db'
-import { type List } from '~/db/types'
+import { type ListDocument } from '~/rxdb/schemas'
 import { cn, trimString } from '~/utils'
 
 const schema = z
@@ -13,7 +12,7 @@ const schema = z
   })
   .required()
 
-export function ListNameForm({ list, onSubmit }: { list: List; onSubmit: () => void }) {
+export function ListNameForm({ list, onSubmit }: { list: ListDocument; onSubmit: (name: string) => void }) {
   const {
     register,
     handleSubmit,
@@ -21,14 +20,7 @@ export function ListNameForm({ list, onSubmit }: { list: List; onSubmit: () => v
   } = useForm<z.infer<typeof schema>>({ resolver: zodResolver(schema), defaultValues: { name: list.name } })
 
   return (
-    <form
-      onSubmit={handleSubmit(async ({ name }) => {
-        await db.lists.update(list, { name })
-        onSubmit()
-      })}
-      className='flex'
-      noValidate
-    >
+    <form onSubmit={handleSubmit(({ name }) => onSubmit(name))} className='flex' noValidate>
       <Input
         placeholder='Enter a name'
         className={cn({ 'border-red-500': errors.name?.message }, '-mr-2 border-r-transparent pr-2')}
