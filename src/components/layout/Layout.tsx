@@ -7,10 +7,15 @@ import { ShoppingList } from '~/features/ShoppingList'
 import { switchMap, filter } from 'rxjs'
 import { useObservableGetState } from 'observable-hooks'
 import { db } from '~/db'
+import { useAppStore } from '~/store'
 
 export function Layout({ children }: { children: ReactNode }) {
   const [isShoppingListVisible, setIsShoppingListVisible] = useState(true)
-  const activePurchasesCount = useActivePurchasesCount()
+  // const activePurchasesCount = useActivePurchasesCount()
+  const activePurchasesCount = useAppStore((store) => {
+    const store1 = store
+    return store1.getActivePurchasesCount()
+  })
 
   return (
     <div className='flex'>

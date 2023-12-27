@@ -32,7 +32,8 @@
     "rxdb-hooks": "^5.0.2",
     "rxjs": "^7.8.1",
     "tailwind-merge": "^2.2.0",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@tanstack/router-devtools": "^1.0.0",
