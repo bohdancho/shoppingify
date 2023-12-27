@@ -1,1 +1,1 @@
-export { ActiveList } from './ActiveList'
+export { ActiveList, isActiveListOpenDefault } from './ActiveList'

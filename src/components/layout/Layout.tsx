@@ -14,7 +14,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
   return (
     <div className='flex'>
-      <aside className='sticky top-0 flex h-dvh flex-col items-center justify-between py-4'>
+      <aside className='sticky top-0 flex h-dvh flex-col items-center justify-between bg-white py-4'>
         <img src={logo} alt='shoppingify logo' />
         <Navbar />
         <button
@@ -35,7 +35,7 @@ export function Layout({ children }: { children: ReactNode }) {
           <ShoppingCartRounded className='z-10' />
         </button>
       </aside>
-      <div className='flex-1'>{children}</div>
+      <main className='flex-1'>{children}</main>
       <ActiveList />
     </div>
   )

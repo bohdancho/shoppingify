@@ -5,10 +5,10 @@ import { itemsRoute } from './features/items'
 import { historyRoute } from './features/history'
 import { statisticsRoute } from './features/statistics'
 import { z } from 'zod'
-import { isMdScreen } from './utils'
+import { isActiveListOpenDefault } from './features/ActiveList'
 
 export const rootRoute = new RootRoute({
-  validateSearch: z.object({ isActiveListOpen: z.boolean().catch(() => isMdScreen()) }),
+  validateSearch: z.object({ isActiveListOpen: z.boolean().catch(() => isActiveListOpenDefault()) }),
   component: () => (
     <>
       <Layout>

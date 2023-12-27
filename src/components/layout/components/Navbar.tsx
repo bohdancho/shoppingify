@@ -8,7 +8,7 @@ export function Navbar() {
         search={{ isActiveListOpen: false }}
         activeOptions={{ includeSearch: false }}
         to='/items'
-        className='text-zink-700 flex h-16 w-16 items-center justify-center [&.active]:pointer-events-none'
+        className='flex h-16 w-16 items-center justify-center text-zinc-700 [&.active]:pointer-events-none'
       >
         <FormatListBulletedRounded />
       </Link>
@@ -16,7 +16,7 @@ export function Navbar() {
         search={{ isActiveListOpen: false }}
         activeOptions={{ includeSearch: false }}
         to='/history'
-        className='text-zink-700 peer flex h-16 w-16 items-center justify-center [&.active]:pointer-events-none'
+        className='peer flex h-16 w-16 items-center justify-center text-zinc-700 [&.active]:pointer-events-none'
       >
         <ReplayRounded />
       </Link>
@@ -24,7 +24,7 @@ export function Navbar() {
         search={{ isActiveListOpen: false }}
         activeOptions={{ includeSearch: false }}
         to='/statistics'
-        className='text-zink-700 peer flex h-16 w-16 items-center justify-center [&.active]:pointer-events-none'
+        className='peer flex h-16 w-16 items-center justify-center text-zinc-700 [&.active]:pointer-events-none'
       >
         <InsertChartOutlinedRounded />
       </Link>

@@ -51,49 +51,6 @@ const items = [
   {
     id: nanoid(),
     category: fruitsId,
-    name: 'Potato',
-    note: 'Potatoes are a staple food and are rich in carbohydrates.',
-  },
-  {
-    id: nanoid(),
-    category: fruitsId,
-    name: 'Onion',
-    note: 'Onions add flavor to many dishes and are a good source of vitamins.',
-  },
-  {
-    id: nanoid(),
-    category: fruitsId,
-    name: 'Garlic',
-    note: 'Garlic is known for its distinct flavor and potential health benefits.',
-  },
-  {
-    id: nanoid(),
-    category: fruitsId,
-    name: 'Cucumber',
-    note: 'Cucumbers are low in calories and a good source of hydration.',
-  },
-  {
-    id: nanoid(),
-    category: fruitsId,
-    name: 'Lettuce',
-    note: 'Lettuce is a leafy green vegetable commonly used in salads.',
-  },
-  {
-    id: nanoid(),
-    category: fruitsId,
-    name: 'Carrot',
-    note: 'Carrots are rich in beta-carotene and are good for eye health.',
-  },
-  {
-    id: nanoid(),
-    category: fruitsId,
-    name: 'Broccoli',
-    note: 'Broccoli is a nutritious vegetable with high fiber content.',
-  },
-  { id: nanoid(), category: fruitsId, name: 'Grapes', note: 'Grapes are sweet and packed with antioxidants.' },
-  {
-    id: nanoid(),
-    category: fruitsId,
     name: 'Strawberries',
     note: 'Strawberries are delicious berries rich in vitamin C.',
   },
@@ -223,13 +180,13 @@ const purchases = [
   { id: nanoid(), list: lists[1].id, item: items[1].id, amount: 3, isCompleted: true },
   { id: nanoid(), list: lists[1].id, item: items[20].id, amount: 2, isCompleted: true },
 
-  { id: nanoid(), list: lists[2].id, item: items[28].id, amount: 4, isCompleted: true },
+  { id: nanoid(), list: lists[2].id, item: items[6].id, amount: 4, isCompleted: true },
   { id: nanoid(), list: lists[2].id, item: items[14].id, amount: 2, isCompleted: true },
 
-  { id: nanoid(), list: lists[3].id, item: items[12].id, amount: 2, isCompleted: true },
-  { id: nanoid(), list: lists[3].id, item: items[30].id, amount: 1, isCompleted: false },
+  { id: nanoid(), list: lists[3].id, item: items[12].id, amount: 2, isCompleted: false },
+  { id: nanoid(), list: lists[3].id, item: items[22].id, amount: 1, isCompleted: false },
   { id: nanoid(), list: lists[3].id, item: items[20].id, amount: 3, isCompleted: false },
-  { id: nanoid(), list: lists[3].id, item: items[19].id, amount: 1, isCompleted: true },
+  { id: nanoid(), list: lists[3].id, item: items[19].id, amount: 1, isCompleted: false },
   { id: nanoid(), list: lists[3].id, item: items[15].id, amount: 2, isCompleted: false },
-  { id: nanoid(), list: lists[3].id, item: items[27].id, amount: 2, isCompleted: true },
+  { id: nanoid(), list: lists[3].id, item: items[21].id, amount: 2, isCompleted: false },
 ] satisfies PurchaseDocType[]

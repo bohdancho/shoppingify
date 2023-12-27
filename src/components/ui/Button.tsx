@@ -8,7 +8,7 @@ export const buttonVariants = cva('rounded-xl py-[1em] px-[1.5em] min-w-[5.5em] 
       default: 'bg-amber-500 text-white',
       secondary: 'bg-cyan-300 text-white',
       danger: 'bg-rose-500 text-white',
-      transparent: 'text-neutral-700',
+      transparent: '',
     },
   },
   defaultVariants: { variant: 'default' },

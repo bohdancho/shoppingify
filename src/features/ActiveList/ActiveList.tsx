@@ -1,7 +1,7 @@
 import bottleImg from '~/assets/bottle.svg'
 import { Button } from '~/components/ui'
 import shoppingImg from '~/assets/shopping.svg'
-import { cn } from '~/utils'
+import { cn, isMdScreen } from '~/utils'
 import { CancelListModal, ListNameForm, PurchasesByCategories } from './components'
 import { useState } from 'react'
 import { CreateRounded } from '@mui/icons-material'
@@ -13,6 +13,7 @@ import { nanoid } from 'nanoid'
 import { useNavigate } from '@tanstack/react-router'
 import { rootRoute } from '~/router'
 
+export const isActiveListOpenDefault = () => isMdScreen()
 export function ActiveList() {
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false)
@@ -46,18 +47,16 @@ export function ActiveList() {
         )}
       >
         <div className='flex flex-1 flex-col overflow-y-auto px-4 pb-4 pt-7'>
-          <div className='mb-8 flex rounded-3xl bg-[#80485B] px-6 py-3 font-bold text-white'>
+          <div className='mb-8 flex rounded-3xl bg-[#80485B] px-6 py-3 font-bold'>
             <img src={bottleImg} alt='spice bottle' className='-mt-6 h-32 pr-7' />
             <div>
-              <span className='mb-[0.8em] block'>Didn't find what you need?</span>
-              <button className='block rounded-xl bg-white px-[1.3em] text-sm leading-[2.5em] text-neutral-700 shadow'>
-                Add item
-              </button>
+              <span className='mb-[0.8em] block text-white'>Didn't find what you need?</span>
+              <button className='block rounded-xl bg-white px-[1.3em] text-sm leading-[2.5em] shadow'>Add item</button>
             </div>
           </div>
           {(activeList.name || hasItems) && (
             <div className='mb-8 flex items-start justify-between'>
-              <h1 className='text-2xl font-bold text-neutral-700'>{activeList.name ?? 'Shopping list'}</h1>
+              <h1 className='text-2xl font-bold'>{activeList.name ?? 'Shopping list'}</h1>
               {!isEditMode && (
                 <button className='h-8' onClick={() => setIsEditMode(true)}>
                   <CreateRounded />
@@ -68,7 +67,7 @@ export function ActiveList() {
           {hasItems ? (
             <PurchasesByCategories purchasesByCategories={purchasesByCategories} isEditMode={isEditMode} />
           ) : (
-            <div className='absolute top-1/2 mt-auto self-center text-xl font-bold text-neutral-700'>No items</div>
+            <div className='absolute top-1/2 mt-auto self-center text-xl font-bold'>No items</div>
           )}
         </div>
         <div className='sticky bottom-0 flex w-full justify-center bg-white p-4'>
