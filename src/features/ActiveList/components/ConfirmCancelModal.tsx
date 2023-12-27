@@ -27,10 +27,10 @@ export function CancelListModal({
         <button className='absolute right-2 top-2' onClick={onAbort}>
           <CloseRounded />
         </button>
-        <h2>Are you sure you want to cancel this list?</h2>
+        <h2 className='mb-4'>Are you sure you want to cancel this list?</h2>
         <div className='flex justify-end gap-2'>
           <Button variant='transparent' onClick={onAbort}>
-            cancel
+            don't cancel
           </Button>
           <Button variant='danger' onClick={onConfirm}>
             Yes

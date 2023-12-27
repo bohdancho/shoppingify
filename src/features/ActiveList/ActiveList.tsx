@@ -13,13 +13,13 @@ import { nanoid } from 'nanoid'
 import { useNavigate } from '@tanstack/react-router'
 import { rootRoute } from '~/router'
 
-export function ShoppingList() {
+export function ActiveList() {
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false)
   const { isActiveListOpen: isOpen } = rootRoute.useSearch()
   const navigate = useNavigate()
 
-  const data = useShoppingList()
+  const data = useActiveList()
   if (data === undefined) return 'Loading...'
   const [activeList, purchasesByCategories] = data
   const hasItems = Object.keys(purchasesByCategories).length !== 0
@@ -103,21 +103,7 @@ export function ShoppingList() {
   )
 }
 
-function populatePurchase$(purchase: PurchaseDocument) {
-  return db.items.findOne({ selector: { id: purchase.item } }).$.pipe(
-    switchMap((item) =>
-      db.categories.findOne({ selector: { id: item?.category } }).$.pipe(
-        map((category) => ({
-          purchase,
-          item: item!,
-          category: category!,
-        })),
-      ),
-    ),
-  )
-}
-
-function useShoppingList() {
+function useActiveList() {
   const activeList$ = db.lists
     .findOne({ selector: { state: 'active' } })
     .$.pipe(
@@ -131,4 +117,18 @@ function useShoppingList() {
     map((purchases) => groupBy(purchases, ({ category }) => category.name)),
   )
   return useObservableGetState(combineLatest([activeList$, purchasesByCategories$]), undefined)
+}
+
+function populatePurchase$(purchase: PurchaseDocument) {
+  return db.items.findOne({ selector: { id: purchase.item } }).$.pipe(
+    switchMap((item) =>
+      db.categories.findOne({ selector: { id: item?.category } }).$.pipe(
+        map((category) => ({
+          purchase,
+          item: item!,
+          category: category!,
+        })),
+      ),
+    ),
+  )
 }

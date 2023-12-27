@@ -2,11 +2,11 @@ import { useNavigate } from '@tanstack/react-router'
 import { Navbar } from './components/Navbar'
 import { ShoppingCartRounded } from '@mui/icons-material'
 import logo from '~/assets/logo.svg'
-import { ShoppingList } from '~/features/ShoppingList'
 import { switchMap, filter } from 'rxjs'
 import { useObservableGetState } from 'observable-hooks'
 import { db } from '~/db'
 import { type ReactNode } from 'react'
+import { ActiveList } from '~/features/ActiveList'
 
 export function Layout({ children }: { children: ReactNode }) {
   const activePurchasesCount = useActivePurchasesCount()
@@ -36,7 +36,7 @@ export function Layout({ children }: { children: ReactNode }) {
         </button>
       </aside>
       <div className='flex-1'>{children}</div>
-      <ShoppingList />
+      <ActiveList />
     </div>
   )
 }
