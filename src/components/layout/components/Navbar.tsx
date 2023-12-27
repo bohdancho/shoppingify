@@ -1,27 +1,30 @@
 import { Link } from '@tanstack/react-router'
 import { FormatListBulletedRounded, InsertChartOutlinedRounded, ReplayRounded } from '@mui/icons-material'
 
-export function Navbar({ onNavigate }: { onNavigate: () => void }) {
+export function Navbar() {
   return (
     <nav className='relative flex w-full flex-col items-center gap-8'>
       <Link
+        search={{ isActiveListOpen: false }}
+        activeOptions={{ includeSearch: false }}
         to='/items'
         className='text-zink-700 flex h-16 w-16 items-center justify-center [&.active]:pointer-events-none'
-        onClick={onNavigate}
       >
         <FormatListBulletedRounded />
       </Link>
       <Link
+        search={{ isActiveListOpen: false }}
+        activeOptions={{ includeSearch: false }}
         to='/history'
         className='text-zink-700 peer flex h-16 w-16 items-center justify-center [&.active]:pointer-events-none'
-        onClick={onNavigate}
       >
         <ReplayRounded />
       </Link>
       <Link
+        search={{ isActiveListOpen: false }}
+        activeOptions={{ includeSearch: false }}
         to='/statistics'
         className='text-zink-700 peer flex h-16 w-16 items-center justify-center [&.active]:pointer-events-none'
-        onClick={onNavigate}
       >
         <InsertChartOutlinedRounded />
       </Link>

@@ -1,11 +1,14 @@
-import { NotFoundRoute, Outlet, RootRoute, Route, Router, redirect } from '@tanstack/react-router'
+import { NotFoundRoute, Outlet, RootRoute, Route, Router } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { Layout } from './components/layout'
 import { itemsRoute } from './features/items'
 import { historyRoute } from './features/history'
 import { statisticsRoute } from './features/statistics'
+import { z } from 'zod'
+import { isMdScreen } from './utils'
 
 export const rootRoute = new RootRoute({
+  validateSearch: z.object({ isActiveListOpen: z.boolean().catch(() => isMdScreen()) }),
   component: () => (
     <>
       <Layout>

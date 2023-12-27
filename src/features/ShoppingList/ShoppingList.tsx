@@ -10,10 +10,14 @@ import { db, type PurchaseDocument } from '~/db'
 import groupBy from 'lodash/groupBy'
 import { useObservableGetState } from 'observable-hooks'
 import { nanoid } from 'nanoid'
+import { useNavigate } from '@tanstack/react-router'
+import { rootRoute } from '~/router'
 
-export function ShoppingList({ isVisible, onClose }: { isVisible: boolean; onClose: () => void }) {
+export function ShoppingList() {
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false)
+  const { isActiveListOpen: isOpen } = rootRoute.useSearch()
+  const navigate = useNavigate()
 
   const data = useShoppingList()
   if (data === undefined) return 'Loading...'
@@ -32,12 +36,12 @@ export function ShoppingList({ isVisible, onClose }: { isVisible: boolean; onClo
         onConfirm={async () => {
           await activeList.patch({ state: 'cancelled' })
           setIsCancelModalVisible(false)
-          onClose()
+          await navigate({ search: { isActiveListOpen: false } })
         }}
       />
       <aside
         className={cn(
-          { '-translate-x-full': isVisible },
+          { '-translate-x-full': isOpen === true },
           'fixed left-full top-0 flex h-full w-[calc(100%-4rem)] flex-col bg-orange-100 transition-all duration-200 ease-in-out',
         )}
       >
@@ -86,7 +90,7 @@ export function ShoppingList({ isVisible, onClose }: { isVisible: boolean; onClo
                 variant='secondary'
                 onClick={async () => {
                   await activeList.patch({ state: 'completed' })
-                  onClose()
+                  await navigate({ search: { isActiveListOpen: false } })
                 }}
               >
                 Complete
