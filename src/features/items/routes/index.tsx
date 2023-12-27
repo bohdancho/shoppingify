@@ -3,7 +3,7 @@ import { rootRoute } from '~/router'
 
 export const itemsRoute = new Route({
   getParentRoute: () => rootRoute,
-  path: '/',
+  path: '/items',
   component: () => {
     return <div className='p-2'>Items route</div>
   },

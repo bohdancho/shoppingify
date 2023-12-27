@@ -1,4 +1,4 @@
-import { Outlet, RootRoute, Router } from '@tanstack/react-router'
+import { NotFoundRoute, Outlet, RootRoute, Route, Router, redirect } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { Layout } from './components/layout'
 import { itemsRoute } from './features/items'
@@ -16,10 +16,18 @@ export const rootRoute = new RootRoute({
   ),
 })
 
-const indexRoute = itemsRoute
-const routeTree = rootRoute.addChildren([indexRoute, historyRoute, statisticsRoute])
+const indexRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: '/',
+  beforeLoad: ({ navigate }) => void navigate({ to: '/items', replace: true }),
+})
+const routeTree = rootRoute.addChildren([indexRoute, itemsRoute, historyRoute, statisticsRoute])
+const notFoundRoute = new NotFoundRoute({
+  getParentRoute: () => rootRoute,
+  beforeLoad: ({ navigate }) => void navigate({ to: '/' }),
+})
 
-export const router = new Router({ routeTree })
+export const router = new Router({ routeTree, notFoundRoute })
 
 declare module '@tanstack/react-router' {
   interface Register {

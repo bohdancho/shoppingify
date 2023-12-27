@@ -5,7 +5,7 @@ export function Navbar({ onNavigate }: { onNavigate: () => void }) {
   return (
     <nav className='relative flex w-full flex-col items-center gap-8'>
       <Link
-        to='/'
+        to='/items'
         className='text-zink-700 flex h-16 w-16 items-center justify-center [&.active]:pointer-events-none'
         onClick={onNavigate}
       >
