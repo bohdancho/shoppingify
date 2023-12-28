@@ -5,6 +5,11 @@ body {
   @apply bg-slate-50;
 }
 
+.break-text {
+  word-break: break-word;
+  min-width: 0;
+}
+
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;

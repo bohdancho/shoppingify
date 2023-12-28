@@ -25,7 +25,7 @@ function Item({ item }: { item: ItemDocType }) {
 
   return (
     <li className='flex justify-between text-wrap rounded-xl bg-white p-3 shadow'>
-      <span className='mr-1 flex items-center text-sm'>{item.name}</span>
+      <span className='break-text mr-1 flex items-center text-sm'>{item.name}</span>
       {purchase ? (
         <button onClick={() => purchase.remove()}>
           <RemoveRounded className='text-stone-300' />

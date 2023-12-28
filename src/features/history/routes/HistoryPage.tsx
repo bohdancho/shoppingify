@@ -17,8 +17,11 @@ export function HistoryPage() {
             <h2 className='mb-4 text-xs'>{monthYear}</h2>
             <ul>
               {lists.map((list) => (
-                <li className='mb-6 grid grid-cols-[1fr_min-content_min-content] items-start gap-y-1 rounded-xl bg-white p-3 shadow last:mb-0'>
-                  <span className='text-sm'>{list.name}</span>
+                <li
+                  key={list.id}
+                  className='mb-6 grid grid-cols-[1fr_min-content_min-content] items-start gap-y-1 rounded-xl bg-white p-3 shadow last:mb-0'
+                >
+                  <span className='break-text min-w-0 text-sm'>{list.name}</span>
                   <div className='row-start-2 text-stone-300'>
                     <EventNoteRounded className='mr-1' />
                     <span className='mr-2 whitespace-nowrap text-xs'>

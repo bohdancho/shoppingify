@@ -8,7 +8,7 @@ import { cn, trimString } from '~/utils'
 
 const schema = z
   .object({
-    name: z.preprocess(trimString, z.string().min(1)),
+    name: z.preprocess(trimString, z.string().min(1).max(80)),
   })
   .required()
 

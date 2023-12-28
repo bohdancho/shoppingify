@@ -60,8 +60,8 @@ export function ActiveList() {
             </div>
           </div>
           {(activeList.name || hasItems) && (
-            <div className='mb-8 flex items-start justify-between'>
-              <h1 className='text-2xl font-bold'>{activeList.name ?? 'Shopping list'}</h1>
+            <div className='mb-8 flex items-start justify-between gap-2'>
+              <h1 className='break-text text-2xl font-bold'>{activeList.name ?? 'Shopping list'}</h1>
               {!isEditMode && (
                 <button className='h-8' onClick={() => setIsEditMode(true)}>
                   <CreateRounded />
