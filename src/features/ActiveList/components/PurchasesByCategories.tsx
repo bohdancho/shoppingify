@@ -11,9 +11,9 @@ export function PurchasesByCategories({
   purchasesByCategories: Record<string, { purchase: PurchaseDocument; item: ItemDocument }[]>
   isEditMode: boolean
 }) {
-  const [editingPurchaseId, setEditingPurchaseId] = useState<string | null>(null)
-  if (!isEditMode && editingPurchaseId !== null) {
-    setEditingPurchaseId(null)
+  const [editingPurchaseId, setEditingPurchaseId] = useState<string>()
+  if (!isEditMode && editingPurchaseId !== undefined) {
+    setEditingPurchaseId(undefined)
   }
 
   return (
@@ -39,7 +39,7 @@ export function PurchasesByCategories({
                 {purchase.id === editingPurchaseId ? (
                   <div className='flex rounded-xl bg-white'>
                     <button className='mr-2 rounded-xl bg-amber-500 px-[10px] pr-2'>
-                      <DeleteOutlineRounded className='text-white' />
+                      <DeleteOutlineRounded onClick={() => purchase.remove()} className='text-white' />
                     </button>
                     <button>
                       <RemoveRounded
@@ -52,7 +52,7 @@ export function PurchasesByCategories({
                     <AmountBadge
                       className='mx-1 my-2 cursor-pointer self-center'
                       amount={purchase.amount}
-                      onClick={() => isEditMode && setEditingPurchaseId(null)}
+                      onClick={() => isEditMode && setEditingPurchaseId(undefined)}
                     />
                     <button className='pr-1'>
                       <AddRounded

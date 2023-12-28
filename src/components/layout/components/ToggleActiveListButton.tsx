@@ -33,7 +33,7 @@ export function ToggleActiveListButton() {
 
 function useAnimateNotification(buttonRef: RefObject<HTMLButtonElement>, prevCount?: number, count?: number) {
   useEffect(() => {
-    if (!prevCount || !count || prevCount === count) return
+    if (prevCount === undefined || count === undefined || prevCount === count) return
 
     const notification = document.createElement('div')
     notification.setAttribute(
