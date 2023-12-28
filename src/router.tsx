@@ -1,4 +1,4 @@
-import { NotFoundRoute, Outlet, RootRoute, Route, Router } from '@tanstack/react-router'
+import { NotFoundRoute, Outlet, RootRoute, Route, Router, createHashHistory } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { Layout } from './components/layout'
 import { itemsRoute } from './features/items'
@@ -29,8 +29,9 @@ const notFoundRoute = new NotFoundRoute({
   getParentRoute: () => rootRoute,
   beforeLoad: ({ navigate }) => void navigate({ to: '/' }),
 })
+const hashHistory = createHashHistory()
 
-export const router = new Router({ routeTree, notFoundRoute })
+export const router = new Router({ routeTree, notFoundRoute, history: hashHistory })
 
 declare module '@tanstack/react-router' {
   interface Register {
