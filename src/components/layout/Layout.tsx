@@ -16,7 +16,7 @@ export function Layout({ children }: { children: ReactNode }) {
         <Navbar />
         <ToggleActiveListButton />
       </aside>
-      <main className={cn({ 'h-dvh overflow-y-hidden': isActiveListOpen }, 'flex-1')}>{children}</main>
+      <main className={cn({ 'h-dvh overflow-y-hidden': isActiveListOpen }, 'flex-1 px-3 pb-3 pt-9')}>{children}</main>
       <ActiveList />
     </div>
   )

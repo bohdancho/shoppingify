@@ -142,7 +142,7 @@ const lists = [
     id: nanoid(),
     name: 'Grocery List',
     state: 'cancelled',
-    createdAt: Date.now() - MONTH_MS,
+    createdAt: Date.now() - MONTH_MS * 3,
   },
   {
     id: nanoid(),

@@ -24,14 +24,15 @@ function Item({ item }: { item: ItemDocType }) {
   } = useRxQuery(db.purchases.find({ selector: { listId: activeList?.id, itemId: item.id } }))
 
   return (
-    <li className='flex items-start justify-between text-wrap rounded-xl bg-white p-3 shadow'>
-      <span className='mr-1 text-sm'>{item.name}</span>
+    <li className='flex justify-between text-wrap rounded-xl bg-white p-3 shadow'>
+      <span className='mr-1 flex items-center text-sm'>{item.name}</span>
       {purchase ? (
         <button onClick={() => purchase.remove()}>
           <RemoveRounded className='text-stone-300' />
         </button>
       ) : (
         <button
+          className='self-start'
           onClick={() =>
             db.purchases.insert({
               id: nanoid(),

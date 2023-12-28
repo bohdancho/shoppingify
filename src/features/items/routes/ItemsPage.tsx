@@ -6,7 +6,7 @@ export function ItemsPage() {
   const { result: categories } = useRxQuery(db.categories.find())
 
   return (
-    <section className='px-3 pb-3 pt-9'>
+    <>
       <h1 className='mb-7 text-xl'>
         <span className='text-amber-500'>Shoppingify</span> allows you to take your shopping list wherever you go
       </h1>
@@ -18,6 +18,6 @@ export function ItemsPage() {
           </li>
         ))}
       </ul>
-    </section>
+    </>
   )
 }
