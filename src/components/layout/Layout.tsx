@@ -11,7 +11,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
   return (
     <div className='flex'>
-      <aside className='sticky top-0 flex h-dvh flex-col items-center justify-between bg-white py-4'>
+      <aside className='sticky top-0 flex h-dvh flex-col items-center justify-between overflow-y-clip bg-white py-4'>
         <img src={logo} alt='shoppingify logo' />
         <Navbar />
         <ToggleActiveListButton />
