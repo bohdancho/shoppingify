@@ -156,12 +156,6 @@ const lists = [
     state: 'completed',
     createdAt: Date.now() - MONTH_MS * 0.2,
   },
-  {
-    id: nanoid(),
-    name: 'Grocery List',
-    state: 'cancelled',
-    createdAt: Date.now() - MONTH_MS * 0.1,
-  },
   { id: nanoid(), state: 'active' },
 ] satisfies ListDocType[]
 
@@ -183,11 +177,4 @@ const purchases = [
 
   { id: nanoid(), listId: lists[2].id, itemId: items[6].id, amount: 4, isCompleted: true },
   { id: nanoid(), listId: lists[2].id, itemId: items[14].id, amount: 2, isCompleted: true },
-
-  { id: nanoid(), listId: lists[3].id, itemId: items[12].id, amount: 2, isCompleted: false },
-  { id: nanoid(), listId: lists[3].id, itemId: items[22].id, amount: 1, isCompleted: false },
-  { id: nanoid(), listId: lists[3].id, itemId: items[20].id, amount: 3, isCompleted: false },
-  { id: nanoid(), listId: lists[3].id, itemId: items[19].id, amount: 1, isCompleted: false },
-  { id: nanoid(), listId: lists[3].id, itemId: items[15].id, amount: 2, isCompleted: false },
-  { id: nanoid(), listId: lists[3].id, itemId: items[21].id, amount: 2, isCompleted: false },
 ] satisfies PurchaseDocType[]

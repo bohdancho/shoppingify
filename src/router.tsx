@@ -29,9 +29,8 @@ const notFoundRoute = new NotFoundRoute({
   getParentRoute: () => rootRoute,
   beforeLoad: ({ navigate }) => void navigate({ to: '/' }),
 })
-const hashHistory = createHashHistory()
 
-export const router = new Router({ routeTree, notFoundRoute, history: hashHistory })
+export const router = new Router({ routeTree, notFoundRoute, history: createHashHistory() })
 
 declare module '@tanstack/react-router' {
   interface Register {
